@@ -1,0 +1,30 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: SJF Autograding Test
+      id: sjf-autograding-test
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: SJF Autograding Test
+        setup-command: ''
+        command: "./tests/test.sh"
+        timeout: 10
+        max-score: 25
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        SJF-AUTOGRADING-TEST_RESULTS: "${{steps.sjf-autograding-test.outputs.result}}"
+      with:
+        runners: sjf-autograding-test
