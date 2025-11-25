@@ -1,0 +1,5 @@
+Process BT WT TAT
+P4 2 0 2
+P2 3 2 5
+P3 4 5 9
+P1 7 9 16
